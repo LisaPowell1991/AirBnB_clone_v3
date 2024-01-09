@@ -56,7 +56,7 @@ def review_by_id(review_id):
         return jsonify({}), 200
 
 
-@app_views.route('/places/<place_id>/reviews', methods=['GET', 'POST'])
+@app_views.route('/places/<place_id>/reviews', methods=['GET', 'POST'], strict_slashes=False)
 def reviews_by_place(place_id):
     """
     Retrieves the list of all Review obj of a Place or creates a new Review.
