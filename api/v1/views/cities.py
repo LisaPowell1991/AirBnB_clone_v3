@@ -34,10 +34,10 @@ def cities_by_state(state_id):
         return jsonify(cities)
 
     if request.method == 'POST':
-        try:
-            data = request.get_json()
-        except Exception:
-            abort(400, 'Not a JSON')
+        data = request.get_json()
+
+        if not data:
+            return jsonify({"error": "Not a JSON"}), 400
 
         if data is None:
             abort(400, 'Not a JSON')
@@ -75,10 +75,10 @@ def city_by_id(city_id):
         return jsonify(city.to_dict())
 
     if request.method == 'PUT':
-        try:
-            data = request.get_json()
-        except Exception:
-            abort(400, 'Not a JSON')
+        data = request.get_json()
+
+        if not data:
+            return jsonify({"error": "Not a JSON"}), 400
 
         if data is None:
             abort(400, 'Not a JSON')

@@ -32,10 +32,10 @@ def get_user_or_update_user(user_id):
         return jsonify(user.to_dict()), 200
 
     if request.method == 'PUT':
-        try:
-            data = request.get_json()
-        except Exception:
-            abort(400, 'Not a JSON')
+        data = request.get_json()
+
+        if not data:
+            return jsonify({"error": "Not a JSON"}), 400
 
         if data is None:
             abort(400, 'Not a JSON')
@@ -67,10 +67,10 @@ def get_users_or_create_user():
         return jsonify([user.to_dict() for user in users]), 200
 
     if request.method == 'POST':
-        try:
-            data = request.get_json()
-        except Exception:
-            abort(400, 'Not a JSON')
+        data = request.get_json()
+
+        if not data:
+            return jsonify({"error": "Not a JSON"}), 400
 
         if data is None:
             abort(400, 'Not a JSON')
