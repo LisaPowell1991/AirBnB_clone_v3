@@ -10,7 +10,8 @@ from models.city import City
 from models.state import State
 
 
-@app_views.route('/states/<state_id>/cities', methods=['GET', 'POST'])
+@app_views.route('/states/<state_id>/cities',
+                 methods=['GET', 'POST'], strict_slashes=False)
 def cities_by_state(state_id):
     """
     Retrieves the list of all City obj of a State or creates a new City.
@@ -51,7 +52,7 @@ def cities_by_state(state_id):
         return jsonify(city.to_dict()), 201
 
 
-@app_views.route('/cities/<city_id>', methods=['GET', 'PUT', 'DELETE'], strict_slashes=False)
+@app_views.route('/cities/<city_id>', methods=['GET', 'PUT', 'DELETE'])
 def city_by_id(city_id):
     """
     Retrieves, updates, or deletes a City object by ID.
