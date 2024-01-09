@@ -12,7 +12,7 @@ from models.amenity import Amenity
 
 
 @app_views.route('/places/<place_id>/amenities',
-                 methods=['GET', 'POST'])
+                 methods=['GET'])
 def places_amenities(place_id):
     """
     Handles default RESTful API actions for
@@ -43,7 +43,7 @@ def places_amenities(place_id):
 
 
 @app_views.route('/places/<place_id>/amenities/<amenity_id>',
-                 methods=['DELETE'])
+                 methods=['DELETE', 'POST'])
 def unlink_place_amenity(place_id, amenity_id):
     """Deletes an Amenity object from a Place"""
     place = storage.get(Place, place_id)
@@ -51,6 +51,19 @@ def unlink_place_amenity(place_id, amenity_id):
 
     if place is None or amenity is None or amenity not in place.amenities:
         abort(404)
+    if request.method == 'POST':
+        amenity_id = request.get_json().get('amenity_id')
+        amenity = storage.get(Amenity, amenity_id)
+
+        if amenity is None:
+            abort(404)
+
+        if amenity in place.amenities:
+            return jsonify(amenity.to_dict()), 200
+
+        place.amenities.append(amenity)
+        storage.save()
+        return jsonify(amenity.to_dict()), 201
 
     place.amenities.remove(amenity)
     storage.save()
