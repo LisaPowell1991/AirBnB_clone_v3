@@ -33,13 +33,10 @@ def amenity_by_id(amenity_id):
         return jsonify(amenity.to_dict())
 
     if request.method == 'PUT':
-        try:
-            data = request.get_json()
-        except Exception:
-            abort(400, 'Not a JSON')
+        data = request.get_json()
 
-        if data is None:
-            abort(400, 'Not a JSON')
+        if not data:
+            return jsonify({"error": "Not a JSON"}), 400
 
         ignore_keys = ['id', 'created_at', 'updated_at']
         for key, value in data.items():
@@ -70,13 +67,10 @@ def amenities_list():
         return jsonify([amenity.to_dict() for amenity in amenities])
 
     if request.method == 'POST':
-        try:
-            data = request.get_json()
-        except Exception:
-            abort(400, 'Not a JSON')
+        data = request.get_json()
 
-        if data is None:
-            abort(400, 'Not a JSON')
+        if not data:
+            return jsonify({"error": "Not a JSON"}), 400
 
         if 'name' not in data:
             abort(400, 'Missing name')
