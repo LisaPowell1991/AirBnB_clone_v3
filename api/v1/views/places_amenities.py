@@ -5,7 +5,7 @@ between Place objects and Amenity objects.
 """
 
 from api.v1.views import app_views
-from flask import jsonify, abort, request
+from flask import jsonify, abort, request, make_response
 from models import storage
 from models.place import Place
 from models.amenity import Amenity
@@ -43,7 +43,7 @@ def places_amenities(place_id):
 
 
 @app_views.route('/places/<place_id>/amenities/<amenity_id>',
-                 methods=['DELETE', 'POST'])
+                 methods=['DELETE', 'POST'], strict_slashes=False)
 def unlink_place_amenity(place_id, amenity_id):
     """Deletes an Amenity object from a Place"""
     place = storage.get(Place, place_id)
