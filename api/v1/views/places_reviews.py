@@ -56,7 +56,8 @@ def review_by_id(review_id):
         return jsonify({}), 200
 
 
-@app_views.route('/places/<place_id>/reviews', methods=['GET', 'POST'], strict_slashes=False)
+@app_views.route('/places/<place_id>/reviews',
+                 methods=['GET', 'POST'], strict_slashes=False)
 def reviews_by_place(place_id):
     """
     Retrieves the list of all Review obj of a Place or creates a new Review.
@@ -80,10 +81,10 @@ def reviews_by_place(place_id):
         return jsonify(reviews)
 
     if request.method == 'POST':
-        try:
-            data = request.get_json()
-        except Exception:
-            abort(400, 'Not a JSON')
+        data = request.get_json()
+
+        if not data:
+            return jsonify({"error": "Not a JSON"}), 400
 
         if data is None:
             abort(400, 'Not a JSON')
