@@ -28,11 +28,10 @@ def states():
         return jsonify(states_list)
 
     elif request.method == 'POST':
-        try:
-            # Attempt to get JSON data from the request
-            state_json = request.get_json()
-        except Exception as e:
-            abort(400, 'Not a JSON')
+        state_json = request.get_json()
+
+        if not state_json:
+            return jsonify({"error": "Not a JSON"}), 400
 
         if "name" not in state_json:
             abort(400, description="Missing name")
@@ -85,9 +84,9 @@ def state(state_id):
         if state is None:
             abort(404)
 
-        try:
-            state_json = request.get_json()
-        except Exception as e:
+        state_json = request.get_json()
+
+        if not state_json:
             return jsonify({"error": "Not a JSON"}), 400
 
         state.name = state_json['name']
