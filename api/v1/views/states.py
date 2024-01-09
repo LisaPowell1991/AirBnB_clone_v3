@@ -64,14 +64,14 @@ def state(state_id):
     """
     if request.method == 'GET':
         # Retrieve and delete a specific state from storage
-        state = storage.get("State", state_id)
+        state = storage.get(State, state_id)
         if not state:
             abort(404)
 
         return jsonify(state.to_dict())
 
     elif request.method == 'DELETE':
-        state = storage.get("State", state_id)
+        state = storage.get(State, state_id)
         if state is None:
             abort(404)
 
@@ -81,7 +81,7 @@ def state(state_id):
 
     elif request.method == 'PUT':
         # Retrieve a specific state from storage by state_id
-        state = storage.get("State", state_id)
+        state = storage.get(State, state_id)
         if state is None:
             abort(404)
 
