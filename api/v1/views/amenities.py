@@ -66,7 +66,7 @@ def amenities_list():
         amenities = storage.all(Amenity).values()
         return jsonify([amenity.to_dict() for amenity in amenities])
 
-    if request.method == 'POST':
+    elif request.method == 'POST':
         data = request.get_json()
 
         if not data:
@@ -76,5 +76,6 @@ def amenities_list():
             abort(400, 'Missing name')
 
         new_amenity = Amenity(**data)
-        new_amenity.save()
+        storage.new(new_amenity)
+        storage.save()
         return jsonify(new_amenity.to_dict()), 201
