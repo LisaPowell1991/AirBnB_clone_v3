@@ -51,7 +51,7 @@ def amenity_by_id(amenity_id):
         return jsonify({}), 200
 
 
-@app_views.route('/amenities', methods=['GET', 'POST'])
+@app_views.route('/amenities', methods=['GET', 'POST'], strict_slashes=False)
 def amenities_list():
     """
     Retrieves the list of all Amenity obj or creates a new Amenity.
@@ -66,7 +66,7 @@ def amenities_list():
         amenities = storage.all(Amenity).values()
         return jsonify([amenity.to_dict() for amenity in amenities])
 
-    elif request.method == 'POST':
+    if request.method == 'POST':
         data = request.get_json()
 
         if not data:

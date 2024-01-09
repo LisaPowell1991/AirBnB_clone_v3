@@ -51,7 +51,7 @@ def cities_by_state(state_id):
         return jsonify(city.to_dict()), 201
 
 
-@app_views.route('/cities/<city_id>', methods=['GET', 'PUT', 'DELETE'])
+@app_views.route('/cities/<city_id>', methods=['GET', 'PUT', 'DELETE'], strict_slashes=False)
 def city_by_id(city_id):
     """
     Retrieves, updates, or deletes a City object by ID.
