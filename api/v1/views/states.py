@@ -88,7 +88,7 @@ def state(state_id):
         try:
             state_json = request.get_json()
         except Exception as e:
-            abort(400, 'Not a JSON')
+            return jsonify({"error": "Not a JSON"}), 400
 
         state.name = state_json['name']
         state.save()
